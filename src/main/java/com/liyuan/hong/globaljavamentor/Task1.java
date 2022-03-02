@@ -24,28 +24,28 @@ public class Task1 {
 //        runWithSynchronizedMap();
     }
 
-    public static void runWithConcurrentHashMap() {
-        initConcurrentHashMap();
-        int limit = 100;
-        runThreads(new FillMapThread(numbersMap, limit), new SumValueThread(numbersMap, limit));
-        limit = 1000;
-        runThreads(new FillMapThread(numbersMap, limit), new SumValueThread(numbersMap, limit));
-    }
-
     public static void runWithHashMap() {
         initHashMap();
         int limit = 100;
-        runThreads(new FillMapThread(numbersMap, limit), new SumValueThread(numbersMap, limit));
+        runThreads(new FillMapRunnable(numbersMap, limit), new SumValueRunnable(numbersMap, limit));
         limit = 1000;
-        runThreads(new FillMapThread(numbersMap, limit), new SumValueThread(numbersMap, limit));
+        runThreads(new FillMapRunnable(numbersMap, limit), new SumValueRunnable(numbersMap, limit));
+    }
+
+    public static void runWithConcurrentHashMap() {
+        initConcurrentHashMap();
+        int limit = 100;
+        runThreads(new FillMapRunnable(numbersMap, limit), new SumValueRunnable(numbersMap, limit));
+        limit = 1000;
+        runThreads(new FillMapRunnable(numbersMap, limit), new SumValueRunnable(numbersMap, limit));
     }
 
     public static void runWithSynchronizedMap() {
         numbersMap = returnSynchronizedMap();
         int limit = 100;
-        runThreads(new FillMapThread(numbersMap, limit), new SumSynchronizedValuesThread(numbersMap, limit));
+        runThreads(new FillMapRunnable(numbersMap, limit), new SumSynchronizedValuesRunnable(numbersMap, limit));
         limit = 1000;
-        runThreads(new FillMapThread(numbersMap, limit), new SumSynchronizedValuesThread(numbersMap, limit));
+        runThreads(new FillMapRunnable(numbersMap, limit), new SumSynchronizedValuesRunnable(numbersMap, limit));
     }
 
     public static void runThreads(Runnable r1, Runnable r2) {
@@ -77,12 +77,12 @@ public class Task1 {
     }
 }
 
-class FillMapThread implements Runnable {
+class FillMapRunnable implements Runnable {
     private Map<Integer, Integer> map;
     private int limit;
     private Random rd;
 
-    public FillMapThread(Map<Integer, Integer> _map, int _limit) {
+    public FillMapRunnable(Map<Integer, Integer> _map, int _limit) {
         map = _map;
         limit = _limit;
         rd = new Random();
@@ -100,12 +100,12 @@ class FillMapThread implements Runnable {
     }
 }
 
-class SumValueThread implements Runnable {
+class SumValueRunnable implements Runnable {
     private Map<Integer, Integer> map;
     private int limit;
     private int sum;
 
-    public SumValueThread(Map<Integer, Integer> _map, int _limit) {
+    public SumValueRunnable(Map<Integer, Integer> _map, int _limit) {
         map = _map;
         limit = _limit;
         sum = 0;
@@ -124,12 +124,12 @@ class SumValueThread implements Runnable {
     }
 }
 
-class SumSynchronizedValuesThread implements Runnable {
+class SumSynchronizedValuesRunnable implements Runnable {
     private Map<Integer, Integer> map;
     private int limit;
     private int sum;
 
-    public SumSynchronizedValuesThread(Map<Integer, Integer> _values, int _limit) {
+    public SumSynchronizedValuesRunnable(Map<Integer, Integer> _values, int _limit) {
         map = _values;
         limit = _limit;
     }

@@ -1,7 +1,6 @@
 package com.liyuan.hong.globaljavamentor.test;
 
 import com.liyuan.hong.globaljavamentor.Task1;
-import org.junit.Assert;
 import org.junit.Test;
 
 public class Task1Test {
